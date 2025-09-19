@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), _rotate);
         }
 
-        _moveToDest = true;
+        _moveToDest = false;
     }
 
     void OnMouseClicked(Define.MouseEvent evt)
