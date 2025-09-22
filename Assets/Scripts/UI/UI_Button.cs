@@ -37,7 +37,7 @@ public class UI_Button : UI_Base
     private int _score = 0;
 
     public void OnButtonClicked()
-    {
+    { 
         ++_score;
     }
 }
