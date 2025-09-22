@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     {
         Managers.Input.MouseAction -= OnMouseClicked;
         Managers.Input.MouseAction += OnMouseClicked;
+
+        Managers.Resource.Instantiate("UI/UI_Button");
     }
 
     public enum PlayerState
@@ -26,18 +28,6 @@ public class PlayerController : MonoBehaviour
     {
         // 아무것도 하지 않음
     }
-
-    void OnRunEvent(string text)
-    {
-        Debug.Log("왼발" + text);
-    }
-
-    void OnRunEvent(int text)
-    {
-        Debug.Log("왼발" + text);
-    }
-
-    
 
     void UpdateMoving()
     {
