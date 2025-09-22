@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
         Managers.Input.MouseAction += OnMouseClicked;
     }
 
-    float wait_run_ratio = 0;
-
     public enum PlayerState
     {
         Die,
@@ -28,6 +26,18 @@ public class PlayerController : MonoBehaviour
     {
         // 아무것도 하지 않음
     }
+
+    void OnRunEvent(string text)
+    {
+        Debug.Log("왼발" + text);
+    }
+
+    void OnRunEvent(int text)
+    {
+        Debug.Log("왼발" + text);
+    }
+
+    
 
     void UpdateMoving()
     {
@@ -44,19 +54,17 @@ public class PlayerController : MonoBehaviour
         }
 
         // 애니메이션 - 이동
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 1, 10.0f * Time.deltaTime);
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        // 현재 게임 상태에 대한 정보를 넘겨준다
+        anim.SetFloat("speed", _speed);
     }
 
     void UpdateIdle()
     {
         // 애니메이션 - 멈춤
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 0, 10.0f * Time.deltaTime);
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        anim.SetFloat("speed", 0);
+
     }
 
 
