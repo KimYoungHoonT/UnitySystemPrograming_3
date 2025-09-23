@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Button : UI_Base
@@ -18,9 +17,9 @@ public class UI_Button : UI_Base
         ScoreText,
     }
 
-    enum GameObjects
+    enum Images
     {
-        ScoreText
+        ItemIcon
     }
 
     private void Start()
@@ -28,10 +27,11 @@ public class UI_Button : UI_Base
         // 위에 만들어놓은 저장공간에 각 형식별로 컴퍼넌트들을 등록
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
-        Bind<GameObject>(typeof(GameObjects));
+        Bind<Image>(typeof(Images));
 
-        // 저장 공간에서 해당 하는 형식의 컴퍼넌트 가져와서 사용
-        GetText((int)Texts.ScoreText).text = "Bind Test";
+        GameObject go = GetImage((int)Images.ItemIcon).gameObject;
+        UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
+        evt.OnDragHandler += ((PointerEventData data) => { go.transform.position = data.position; });
     }
 
     private int _score = 0;
