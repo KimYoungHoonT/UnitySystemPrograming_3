@@ -37,19 +37,33 @@ public class UIManager
             canvas.sortingOrder = 0;
         }
     }
-    
+
+    public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
+        
+        if (parent != null)
+        {
+            go.transform.SetParent(parent);
+        }
+        
+        return go.GetorAddComponent<T>();
+    }
+
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
         GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
-        T ui = Util.GetorAddComponent<T>(go);
-        _scene = ui;
+        _scene = go.GetorAddComponent<T>();
 
         go.transform.SetParent(Root.transform);
 
-        return ui;
+        return _scene as T;
     }
 
     public T ShowPopupUI<T>(string name = null) where T : UI_Popup
