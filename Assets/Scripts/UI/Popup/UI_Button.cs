@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Button : UI_Base
+public class UI_Button : UI_Popup
 {
     // 자식 오브젝트들의 이름을 숫자형식으로 들고있음
     enum Buttons
@@ -24,6 +24,13 @@ public class UI_Button : UI_Base
 
     private void Start()
     {
+        Init();
+    }
+
+    public override void Init()
+    {
+        base.Init();
+
         // 위에 만들어놓은 저장공간에 각 형식별로 컴퍼넌트들을 등록
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
