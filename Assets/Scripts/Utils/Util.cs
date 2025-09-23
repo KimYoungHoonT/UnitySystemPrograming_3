@@ -1,6 +1,17 @@
 using UnityEngine;
 public class Util
 {
+    public static T GetorAddComponent<T>(GameObject go) where T : Component
+    {
+        T component = go.GetComponent<T>();
+        if (component == null)
+        {
+            component = go.AddComponent<T>();
+        }
+
+        return component;
+    }
+
     // 부모 오브젝트와 찾으려는 자식오브젝 이름을 받아서 재귀적, 또는 비재귀적 으로 탐색 후 게임 오브젝트를 반환
     public static GameObject FindChild(GameObject go, string name = null, bool recursive = false)
     {

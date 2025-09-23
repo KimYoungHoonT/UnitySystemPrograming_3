@@ -29,15 +29,16 @@ public class UI_Button : UI_Base
         Bind<Text>(typeof(Texts));
         Bind<Image>(typeof(Images));
 
+        GetButton((int)Buttons.PointButton).gameObject.AddUIEvent(OnButtonClicked);
+
         GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-        UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
-        evt.OnDragHandler += ((PointerEventData data) => { go.transform.position = data.position; });
+        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
     }
 
     private int _score = 0;
 
-    public void OnButtonClicked()
-    { 
-        ++_score;
+    public void OnButtonClicked(PointerEventData data)
+    {
+        GetText((int)Texts.ScoreText).text = $"Á¡¼ö : {++_score}Á¡";
     }
 }

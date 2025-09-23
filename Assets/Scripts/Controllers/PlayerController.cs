@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 10;
-    [SerializeField] private float _rotate = 0.1f;
 
     Vector3 _destPos;
 
