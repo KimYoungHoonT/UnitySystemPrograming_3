@@ -6,10 +6,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour
 {
     // 내 자식들이 갖고 있는 컴퍼넌트들을 저장할 공간 (타입별로 모아놓음)
     Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
+
+    public abstract void Init();
 
     // 위에 만들어놓은 저장공간에 각 형식별로 컴퍼넌트들을 등록
     protected void Bind<T>(Type type) where T : UnityEngine.Object // 유니티 오브젝트만 들어 올 수 있음
