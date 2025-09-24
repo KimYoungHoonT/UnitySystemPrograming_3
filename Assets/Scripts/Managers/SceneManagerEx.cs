@@ -9,7 +9,12 @@ public class SceneManagerEx
     // LoadScene 의 랩핑 함수 추가적으로 내용 기입할 예정
     public void LoadScene(Define.Scene type)
     {
-        CurrentScene.Clear();
+        Managers.Clear();
         SceneManager.LoadScene(type.ToString());
+    }
+
+    public void Clear()
+    {
+        CurrentScene.Clear();
     }
 }
