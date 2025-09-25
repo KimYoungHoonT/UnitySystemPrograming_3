@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class PoolManager
 {
@@ -13,14 +14,9 @@ public class PoolManager
     //           ㄴ> UnityChan (Poolable)
     //      ㄴ> Monster_Root (Pool)
     //          ㄴ> Monster (Poolable) // 비활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
-    //          ㄴ> Monster (Poolable) // 활성화
+    //          ㄴ> Monster (Poolable) // 비활성화
+    //          ㄴ> Monster (Poolable) // 비활성화
+    //          ㄴ> Monster (Poolable) // 비활성화
     #region Pool
     class Pool
     {
@@ -78,9 +74,10 @@ public class PoolManager
     }
     #endregion
     
+    Dictionary<string, Pool> _pool = new Dictionary<string, Pool>();
     Transform _root;
 
-    void Init()
+    public void Init()
     {
         if (_root == null)
         {
@@ -89,19 +86,51 @@ public class PoolManager
         }
     }
 
+    public void CreatePool(GameObject original, int count = 5)
+    {
+        Pool pool = new Pool();
+        pool.Init(original);
+        pool.Root.parent = _root;
+
+        _pool.Add(original.name, pool);
+    }
+
     public void Push(Poolable poolable) // 풀에서 꺼내쓰고 다 사용 하고 다시 집어 넣기
     {
-        // 만약 풀자체가 없다면 풀자체도 만들어주기
+        string name = poolable.gameObject.name;
+
+        if (_pool.ContainsKey(name) == false)
+        {
+            Managers.Resource.Destroy(poolable.gameObject);
+            return;
+        }
+
+        _pool[name].Push(poolable);
     }
 
     public Poolable Pop(GameObject original, Transform parent = null) // 사용 하기 위해 꺼내기
     {
-        return null;
+        // 만약 풀자체가 없다면 풀자체도 만들어주기
+        if (_pool.ContainsKey(original.name) == false)
+            CreatePool(original);
+
+        return _pool[original.name].Pop(parent);
     }
 
     public GameObject GetOtiginal(string name) // 프리펩을 가져오는 함수
     {
-        return null;
+        if (_pool.ContainsKey(name) == false)
+            return null;
+
+        return _pool[name].Original;
+    }
+
+    public void Clear()
+    {
+        foreach (Transform child in _root)
+            Managers.Resource.Destroy(child.gameObject); // 하이어라키상 에서 삭제
+
+        _pool.Clear(); // 저장공간에서도 비우기
     }
 }
 

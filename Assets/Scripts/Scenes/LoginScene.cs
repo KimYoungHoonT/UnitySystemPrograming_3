@@ -11,16 +11,15 @@ public class LoginScene : BaseScene
         SceneType = Define.Scene.Login;
 
         List<GameObject> list = new List<GameObject>();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             list.Add(Managers.Resource.Instantiate("Player"));
-
         }
 
-        foreach (GameObject go in list)
-        {
-            Managers.Resource.Destroy(go);
-        }
+        //foreach (GameObject go in list)
+        //{
+        //    Managers.Resource.Destroy(go);
+        //}
     }
 
     private void Update()
