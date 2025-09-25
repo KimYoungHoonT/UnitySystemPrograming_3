@@ -1,32 +1,27 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-class Stat
+public interface ILoader<Key, Value>
 {
-    public int level;
-    public int hp;
-    public int attack;
-}
-
-[Serializable]
-class StatData
-{
-    public List<Stat> stats = new List<Stat>();
+    Dictionary<Key, Value> MakeDict();
 }
 
 public class DataManager
 {
     // 웹통신(API) -> 나 게임 켰어 혹시 업뎃된 내용있음? 있음 나줘
-        // Json -> 요즘
-        // XML -> 구식
+    // Json -> 요즘
+    // XML -> 구식
     // 게임에서는 파일을 파씽해서 실제 게임에 적용하는 방식으로 사용
+    public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
     public void Init()
     {
-        TextAsset textAsset = Managers.Resource.Load<TextAsset>($"Data/StatData");
+        StatDict = LoadJson<StatData, int, Stat>("StatData").MakeDict();
+    }
 
-        StatData statData = JsonUtility.FromJson<StatData>(textAsset.text);
+    Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+    {
+        TextAsset textAsset = Managers.Resource.Load<TextAsset>($"Data/{path}");
+        return JsonUtility.FromJson<Loader>(textAsset.text);
     }
 }
