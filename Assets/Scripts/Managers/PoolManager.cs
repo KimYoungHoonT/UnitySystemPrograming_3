@@ -66,6 +66,11 @@ public class PoolManager
                 poolable = Create();
 
             poolable.gameObject.SetActive(true);
+
+            // DontDestroyOnLoad 해제
+            if (parent == null)
+                poolable.transform.parent = Managers.Scene.CurrentScene.transform;
+
             poolable.transform.parent = parent; // parent 가 널이라면 그냥 하이어라키 최상단에 붙게됨
             poolable.IsUsing = true;
 
